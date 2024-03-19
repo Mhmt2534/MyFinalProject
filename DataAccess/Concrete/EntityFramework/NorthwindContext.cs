@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DataAccess.Concrete.EntityFramework;
 
 //context : Db tabloları ile proje classlarını bağlamak
-internal class NorthwindContext:DbContext
+public class NorthwindContext:DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -19,4 +19,5 @@ internal class NorthwindContext:DbContext
     public DbSet<Product> Products  { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<Order> Orders { get; set; }
 }

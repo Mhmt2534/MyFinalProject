@@ -5,10 +5,45 @@ using DataAccess.Concrete.InMemory;
 //SOLID
 //BU YAPILAN O ÖZELLİĞİDİR. OPEN CLOSE PRİNCİPLE YANİ Yeni bir özellik eklenirse mevcuttaki hiç bir özellik ellenemez
 
+//Data Transormaiton Object
 
-ProductManager productManager = new ProductManager(new EFPorductDal());
+ProductTest();
+//CategoryTest();
 
-foreach (var product in productManager.GetByUnitPrice(100,200))
+
+
+
+
+
+static void ProductTest()
 {
-    Console.WriteLine(product.ProductName);
+    ProductManager productManager = new ProductManager(new EfProductDal());
+
+    var result=productManager.GetProductDetailDtos();
+
+    if (result.Success)
+    {
+        Console.WriteLine(result.Message);
+        foreach (var product in result.Data)
+        {
+            Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+        }
+    }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
+
+   
 }
+
+/*
+static void CategoryTest()
+{
+    CategoryManager categoryManager = new(new EFCategoryDal());
+    foreach (var category in categoryManager.GetAll())
+    {
+        Console.WriteLine(category.CategoryName);
+    }
+}
+*/
