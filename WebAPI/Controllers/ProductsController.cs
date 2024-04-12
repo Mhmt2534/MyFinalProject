@@ -44,10 +44,33 @@ namespace WebAPI.Controllers
             return BadRequest(res);
         }
 
+        [HttpGet("geybycategoryid")]
+        public IActionResult GetByCategoryId(int id)
+        {
+            var res=_productService.GetAllByCategoryId(id);
+            if (res.Success)
+            {
+                return Ok(res);
+            }
+            return BadRequest(res);
+        }
+
+
 
         [HttpPost("add")]
         public IActionResult Add(Product product)
         {
+            /*
+            int deneme= _productService.GetAllByCategoryId(product.CategoryId).Data.Count;
+
+            if (deneme>=10)
+            {
+                return BadRequest("Max sayıya ulaşıldı");
+            }
+            //Bu kısım aslında iş kuralı ama ben deneme amaçlı buraya yazdım. 
+            */
+
+
             var result = _productService.Add(product);
             if (result.Success)
             {

@@ -17,7 +17,8 @@ ProductTest();
 
 static void ProductTest()
 {
-    ProductManager productManager = new ProductManager(new EfProductDal());
+    ProductManager productManager = new ProductManager(new EfProductDal(),
+        new CategoryManager(new EFCategoryDal()));
 
     var result=productManager.GetProductDetailDtos();
 
