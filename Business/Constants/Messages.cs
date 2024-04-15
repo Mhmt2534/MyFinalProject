@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,4 +19,12 @@ public static class Messages
     public static string CategroyIsMax = "Kategori sayısını aştınız";
     public static string ProductNameAlreadyExists = "Aynı ürün ismi var";
     public static string CategoryIsMax = "Kategori sayısı dolu";
+
+    public static string? AuthorizationDenied="Yetkiniz yok";
+    public static string UserRegistered="Kullanıcı kaydı tamam";
+    public static string UserNotFound="Kullanıcı bulunamadı";
+    public static string PasswordError="Şifre hatalı";
+    public static string SuccessfulLogin="giriş başarılı";
+    public static string UserAlreadyExists="kullanıcı var";
+    public static string AccessTokenCreated="token oluşturuldu";
 }
