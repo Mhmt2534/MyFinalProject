@@ -3,6 +3,9 @@ using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Apects.Autofac.Caching;
+using Core.Apects.Autofac.Performance;
+using Core.Apects.Autofac.Transaction;
 using Core.Apects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -32,6 +35,7 @@ public class ProductManager : IProductService
 
     [SecuredOperation("product.add,admin")]
     [ValidationAspect(typeof(ProductValidator))]
+    [CacheRemoveAspect("IProductService.Get")]
     public IResult Add(Product product)
     {
 
@@ -52,6 +56,7 @@ public class ProductManager : IProductService
     
 
     [ValidationAspect(typeof(ProductValidator))]
+    [CacheRemoveAspect("IProductService.Get")]
     public IResult Update(Product product)
     {
         if (CheckIfProductCountOfCategoryCorrect(product.CategoryId).Success) 
@@ -63,7 +68,7 @@ public class ProductManager : IProductService
     }
 
 
-
+    [CacheAspect]
     public IDataResult<List<Product>> GetAll()
     {
         //business codes // iş kodları
@@ -82,6 +87,8 @@ public class ProductManager : IProductService
         return new SuccessDataResult<List<Product>>(_productDal.GetAll(p=>p.CategoryId == id));
     }
 
+    [CacheAspect]
+    [PerformanceAspect(5)]
     public IDataResult<Product> GetById(int id)
     {
         return new SuccessDataResult<Product>(_productDal.Get(p=>p.ProductId == id));
@@ -136,5 +143,23 @@ public class ProductManager : IProductService
         return new SuccessResult();
     }
 
+    [TransactionScopeAspect]
+    public IResult TransactionalOperation(Product product)
+    {
+        _productDal.Update(product);
+        _productDal.Add(product);
+        return new SuccessResult(Messages.ProductUpdated);
+    }
 
+    public IResult TransActionaltest(Product product)
+    {
+        Add(product);
+        if (product.UnitPrice<10)
+        {
+            throw new Exception("");
+        }
+        Add(product);
+
+        return null;
+    }
 }

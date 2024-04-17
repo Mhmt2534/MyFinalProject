@@ -4,6 +4,8 @@ using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
 using Business.DependencyResolves.Autofac;
+using Core.DependencyResolvers;
+using Core.Extensions;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
@@ -28,7 +30,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -45,7 +46,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                     };
                 });
-ServiceTool.Create(builder.Services);
+//ServiceTool.Create(builder.Services);
+
+builder.Services.AddDependencyResolvers(new ICoreModule[]
+{
+    new CoreModule()
+});
 
 //builder.Services.AddSingleton<IProductService,ProductManager>();
 //builder.Services.AddSingleton<IProductDal,EfProductDal>();

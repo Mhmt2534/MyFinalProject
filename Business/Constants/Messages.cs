@@ -27,4 +27,5 @@ public static class Messages
     public static string SuccessfulLogin="giriş başarılı";
     public static string UserAlreadyExists="kullanıcı var";
     public static string AccessTokenCreated="token oluşturuldu";
+    internal static string ProductUpdated;
 }
